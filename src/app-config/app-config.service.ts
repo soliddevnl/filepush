@@ -12,4 +12,8 @@ export class AppConfigService {
   get port(): string {
     return this.config.get<string>('APP_PORT');
   }
+
+  get bucket(): string {
+    return 'bare-img-dev';
+  }
 }
