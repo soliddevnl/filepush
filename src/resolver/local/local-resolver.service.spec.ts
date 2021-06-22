@@ -1,23 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LocalService } from './local.service';
+import { LocalResolverService } from './local-resolver.service';
 import { FilesystemService } from '../../filesystem/filesystem.service';
-import { AppConfigService } from '../../app-config/app-config.service';
 import { InMemoryFileSystem } from '../../filesystem/filesystem.service.spec';
 
-describe('LocalService', () => {
-  let service: LocalService;
+describe('LocalResolverService', () => {
+  let service: LocalResolverService;
 
   beforeEach(async () => {
-    const ConfigMock = jest.fn(() => ({}));
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        LocalService,
+        LocalResolverService,
         FilesystemService,
-        {
-          provide: AppConfigService,
-          useValue: ConfigMock,
-        },
         {
           provide: 'FileSystem',
           useValue: new InMemoryFileSystem(),
@@ -25,7 +18,7 @@ describe('LocalService', () => {
       ],
     }).compile();
 
-    service = module.get<LocalService>(LocalService);
+    service = module.get<LocalResolverService>(LocalResolverService);
   });
 
   it('should be defined', () => {

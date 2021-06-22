@@ -1,31 +1,74 @@
 import { Injectable } from '@nestjs/common';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectsCommand,
+  HeadObjectCommand,
+} from '@aws-sdk/client-s3';
 import { S3Factory } from './s3-factory';
+import { AppConfigService } from '../app-config/app-config.service';
 
 @Injectable()
 export class S3Service {
+  private readonly bucket: string;
   private client: S3Client;
-  private clientFactory: S3Factory = new S3Factory();
 
-  getClient(): S3Client {
+  constructor(
+    private config: AppConfigService,
+    private clientFactory: S3Factory,
+  ) {
+    this.bucket = config.s3.bucket;
     this.client = this.clientFactory.create({
-      region: 'eu-central-1',
+      region: this.config.s3.region,
       credentials: {
-        accessKeyId: 'AKIAWICX23AH6GXUPM7C',
-        secretAccessKey: '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',
+        accessKeyId: this.config.s3.key,
+        secretAccessKey: this.config.s3.secret,
       },
     });
-
-    return this.client;
   }
 
-  async putObject(bucket: string, path: string, data: Buffer): Promise<void> {
+  async putObject(path: string, data: Buffer): Promise<void> {
     const command = new PutObjectCommand({
-      Bucket: bucket,
+      Bucket: this.bucket,
       Key: path,
       Body: data,
     });
 
-    await this.getClient().send(command);
+    await this.client.send(command);
+  }
+
+  getObjectUrl(path: string): string {
+    return `https://${this.bucket}.s3.amazonaws.com/${path}`;
+  }
+
+  async deleteObjects(paths: Array<string>): Promise<void> {
+    const command = new DeleteObjectsCommand({
+      Bucket: this.bucket,
+      Delete: {
+        Objects: paths.map((path) => {
+          return {
+            Key: path,
+          };
+        }),
+        Quiet: false,
+      },
+    });
+
+    await this.client.send(command);
+  }
+
+  async objectExists(path: string): Promise<boolean> {
+    const command = new HeadObjectCommand({
+      Bucket: this.bucket,
+      Key: path,
+    });
+
+    try {
+      await this.client.send(command);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   }
 }

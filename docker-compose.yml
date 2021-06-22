@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  bare-img:
+  filepush:
     build:
       context: ./
       target: dev
@@ -9,4 +9,4 @@ services:
     command: "npm run start:dev"
     volumes:
       - .:/app
-      - ./images:/images
+      - ./files:/files

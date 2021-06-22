@@ -33,7 +33,7 @@ export class UploadService {
     console.log(resolvedPath);
     return resolvedPath;
 
-    const path = this.config.imageDir + '/' + request.filename;
+    const path = this.config.fileDir + '/' + request.filename;
 
     const fileExists = fs.existsSync(path);
     if (!fileExists) {

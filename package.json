@@ -1,7 +1,7 @@
 {
-  "name": "bare-img",
+  "name": "filepush",
   "version": "0.0.1",
-  "description": "",
+  "description": "Minimalist Self-hosted File Service for user submitted files in your app",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -31,6 +31,7 @@
     "@nestjs/serve-static": "^2.1.4",
     "@types/sharp": "^0.28.3",
     "aws-sdk": "^2.931.0",
+    "joi": "^17.4.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
@@ -76,8 +77,7 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/src/",
-      "<rootDir>/libs/"
+      "<rootDir>/src/"
     ]
   }
 }

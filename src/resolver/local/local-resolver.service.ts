@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Resolver } from '../resolver/resolver.service';
-import { FilesystemService } from '../filesystem/filesystem.service';
+import { Resolver } from '../resolver.service';
+import { FilesystemService } from '../../filesystem/filesystem.service';
 
 @Injectable()
-export class FsResolverService implements Resolver {
+export class LocalResolverService implements Resolver {
   constructor(private fileSystem: FilesystemService) {}
 
   isStored(path: string): Promise<boolean> {

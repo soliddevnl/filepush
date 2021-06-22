@@ -10,6 +10,9 @@ export class FilesystemService implements FileSystem {
   }
 
   read(path: string): Buffer {
+    if (!this.exists(path)) {
+      throw `File with path "${path}" does not exist`;
+    }
     return this.adapter.read(path);
   }
 

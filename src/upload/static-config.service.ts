@@ -12,7 +12,7 @@ export class StaticConfigService implements ServeStaticModuleOptionsFactory {
   createLoggerOptions(): ServeStaticModuleOptions[] {
     return [
       {
-        rootPath: this.config.imageDir,
+        rootPath: this.config.fileDir,
       },
     ];
   }
