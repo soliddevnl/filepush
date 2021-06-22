@@ -2,7 +2,7 @@ FROM node:14.17.0-alpine as base
 
 WORKDIR /app
 COPY package*.json .env ./
-RUN mkdir /images
+RUN mkdir /files
 
 FROM base as production
 ENV NODE_ENV=production
