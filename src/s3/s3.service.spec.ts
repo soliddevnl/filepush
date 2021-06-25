@@ -79,8 +79,8 @@ describe('S3Service', () => {
     spy.mockClear();
   });
 
-  it('should get the object url', () => {
-    expect(service.getObjectUrl('file-1')).toBe(
+  it('should get the object url', async () => {
+    expect(await service.getObjectUrl('file-1')).toBe(
       'https://test-bucket.s3.amazonaws.com/file-1',
     );
   });

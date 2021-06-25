@@ -1,17 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-interface S3Config {
+export interface S3Config {
   region: string;
   bucket: string;
   key: string;
   secret: string;
 }
 
-type FilesystemChoices = 'local' | 's3';
+export type FilesystemChoices = 'local' | 's3' | 'in-memory';
+
+export interface AppConfigServiceInterface {
+  get fileDir(): string;
+  get port(): string;
+  get filesystem(): FilesystemChoices;
+  get s3(): S3Config;
+}
 
 @Injectable()
-export class AppConfigService {
+export class AppConfigService implements AppConfigServiceInterface {
   constructor(private config: ConfigService) {}
 
   get fileDir(): string {

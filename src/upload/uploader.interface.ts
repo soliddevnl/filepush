@@ -1,5 +1,5 @@
-import { UploadImage } from './dto';
+import { UploadFile } from '../upload/dto';
 
 export interface Uploader {
-  upload(request: UploadImage): Promise<void>;
+  upload(request: UploadFile): Promise<void>;
 }

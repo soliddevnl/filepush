@@ -1,26 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { FileSystem } from './file-system.interface';
+import { Injectable } from '@nestjs/common';
+import { Readable } from 'stream';
+import { AdapterFactory } from './adapter/adapter.factory';
 
 @Injectable()
-export class FilesystemService implements FileSystem {
-  constructor(@Inject('FileSystem') private adapter: FileSystem) {}
+export class FilesystemService {
+  constructor(private adapterFactory: AdapterFactory) {}
 
-  exists(path: string): boolean {
-    return this.adapter.exists(path);
+  createReadStream(path: string): Promise<Readable> {
+    return this.adapterFactory.create().createReadStream(path);
   }
 
-  read(path: string): Buffer {
-    if (!this.exists(path)) {
-      throw `File with path "${path}" does not exist`;
-    }
-    return this.adapter.read(path);
-  }
-
-  remove(path: string): void {
-    return this.adapter.remove(path);
-  }
-
-  write(path: string, data: Buffer): Promise<void> {
-    return this.adapter.write(path, data);
+  async write(path: string, buffer: Buffer): Promise<void> {
+    return this.adapterFactory.create().write(path, buffer);
   }
 }

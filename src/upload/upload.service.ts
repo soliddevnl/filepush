@@ -1,56 +1,22 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { AppConfigService } from '../app-config/app-config.service';
-import * as fs from 'fs';
+import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import * as sharp from 'sharp';
-import { DownloadImage, UploadImage } from './dto';
-import { ResolverService } from '../resolver/resolver.service';
-import { Uploader } from './uploader.interface';
+import { UploadFile } from './dto';
+import { FilesystemService } from '../filesystem/filesystem.service';
 
 @Injectable()
 export class UploadService {
-  constructor(
-    private config: AppConfigService,
-    private resolver: ResolverService,
-    @Inject('Uploader') private uploader: Uploader,
-  ) {}
+  constructor(private filesystem: FilesystemService) {}
 
   generateFilename(): string {
     return randomUUID();
   }
 
-  async uploadImage(request: UploadImage) {
-    await this.uploader.upload(request);
+  async uploadImage(request: UploadFile) {
+    await this.filesystem.write(request.filename, request.file.buffer);
 
     return {
       filename: request.file.filename,
       mimetype: request.file.mimetype,
     };
-  }
-
-  async getImage(request: DownloadImage) {
-    const resolvedPath = await this.resolver.resolve(request.filename);
-    console.log(resolvedPath);
-    return resolvedPath;
-
-    const path = this.config.fileDir + '/' + request.filename;
-
-    const fileExists = fs.existsSync(path);
-    if (!fileExists) {
-      return null;
-    }
-
-    const image = fs.readFileSync(path);
-
-    if (!request.width && !request.height) {
-      return image;
-    }
-
-    const options = {
-      width: request.width,
-      height: request.height,
-    };
-
-    return await sharp(image).resize(options).toBuffer();
   }
 }

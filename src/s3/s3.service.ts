@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import {
-  S3Client,
-  PutObjectCommand,
   DeleteObjectsCommand,
+  PutObjectCommand,
   HeadObjectCommand,
+  GetObjectCommand,
+  S3Client,
 } from '@aws-sdk/client-s3';
 import { S3Factory } from './s3-factory';
 import { AppConfigService } from '../app-config/app-config.service';
+import { Readable } from 'stream';
 
 @Injectable()
 export class S3Service {
@@ -37,8 +39,8 @@ export class S3Service {
     await this.client.send(command);
   }
 
-  getObjectUrl(path: string): string {
-    return `https://${this.bucket}.s3.amazonaws.com/${path}`;
+  getObjectUrl(path: string): Promise<string> {
+    return Promise.resolve(`https://${this.bucket}.s3.amazonaws.com/${path}`);
   }
 
   async deleteObjects(paths: Array<string>): Promise<void> {
@@ -58,17 +60,28 @@ export class S3Service {
   }
 
   async objectExists(path: string): Promise<boolean> {
-    const command = new HeadObjectCommand({
-      Bucket: this.bucket,
-      Key: path,
-    });
-
     try {
-      await this.client.send(command);
+      await this.client.send(
+        new HeadObjectCommand({
+          Bucket: this.bucket,
+          Key: path,
+        }),
+      );
     } catch (e) {
       return false;
     }
 
     return true;
+  }
+
+  async getObject(path: string): Promise<Readable> {
+    const result = await this.client.send(
+      new GetObjectCommand({
+        Bucket: this.bucket,
+        Key: path,
+      }),
+    );
+
+    return <Readable>result.Body;
   }
 }
