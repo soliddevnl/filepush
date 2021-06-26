@@ -7,8 +7,8 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { S3Factory } from './s3-factory';
-import { AppConfigService } from '../app-config/app-config.service';
 import { Readable } from 'stream';
+import { AppConfigService } from '../../../app-config/app-config.service';
 
 @Injectable()
 export class S3Service {

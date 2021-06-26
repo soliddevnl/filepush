@@ -15,7 +15,7 @@ export class UploadService {
     await this.filesystem.write(request.filename, request.file.buffer);
 
     return {
-      filename: request.file.filename,
+      filename: request.filename,
       mimetype: request.file.mimetype,
     };
   }

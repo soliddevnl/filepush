@@ -1,9 +1,6 @@
-import * as fs from 'fs';
 import { S3Adapter } from './s3.adapter';
-import { S3Service } from '../../s3/s3.service';
 import { Test, TestingModule } from '@nestjs/testing';
-
-jest.mock('fs');
+import { S3Service } from './s3/s3.service';
 
 describe('S3Adapter', () => {
   let s3Adapter: S3Adapter;

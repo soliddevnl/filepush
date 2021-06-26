@@ -4,17 +4,20 @@ import { AppConfigModule } from '../app-config/app-config.module';
 import { AdapterFactory } from './adapter/adapter.factory';
 import { LocalAdapter } from './adapter/local.adapter';
 import { S3Adapter } from './adapter/s3.adapter';
-import { S3Module } from '../s3/s3.module';
 import { InMemoryAdapter } from './adapter/in-memory.adapter';
 import { AppConfigService } from '../app-config/app-config.service';
+import { S3Service } from './adapter/s3/s3.service';
+import { S3Factory } from './adapter/s3/s3-factory';
 
 @Module({
-  imports: [AppConfigModule, S3Module],
+  imports: [AppConfigModule],
   providers: [
     FilesystemService,
     LocalAdapter,
     S3Adapter,
     InMemoryAdapter,
+    S3Service,
+    S3Factory,
     {
       provide: 'CONFIG',
       useValue: AppConfigService,

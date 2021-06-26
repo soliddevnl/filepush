@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FilesystemAdapter } from '../filesystem-adapter.interface';
 import { Readable } from 'stream';
 import { FilesystemChoices } from '../../app-config/app-config.service';
-import { S3Service } from '../../s3/s3.service';
+import { S3Service } from './s3/s3.service';
 
 @Injectable()
 export class S3Adapter implements FilesystemAdapter {

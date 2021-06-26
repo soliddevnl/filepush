@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DownloadService } from './download.service';
-import { Readable } from 'stream';
 import { FilesystemService } from '../filesystem/filesystem.service';
 import { AdapterFactory } from '../filesystem/adapter/adapter.factory';
 import { InMemoryAdapter } from '../filesystem/adapter/in-memory.adapter';
