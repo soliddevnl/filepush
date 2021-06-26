@@ -19,7 +19,6 @@ Fetching a file:
 ```
 http://localhost:5000/b1e75049-d550-43e2-abc0-796fb809fb85
 ```
-Returns the image cropped to the desired size.
 
 ## Running
 Filepush requires Docker.
