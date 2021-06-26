@@ -11,7 +11,7 @@ export class UploadService {
     return randomUUID();
   }
 
-  async uploadImage(request: UploadFile) {
+  async uploadFile(request: UploadFile) {
     await this.filesystem.write(request.filename, request.file.buffer);
 
     return {

@@ -29,7 +29,7 @@ describe('UploadService', () => {
     upload.buffer = Buffer.from('content');
     upload.mimetype = 'jpeg';
 
-    const result = await service.uploadImage({
+    const result = await service.uploadFile({
       file: upload,
       filename: 'filename',
     });

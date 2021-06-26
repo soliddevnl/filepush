@@ -1,16 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { FilesystemAdapter } from '../filesystem-adapter.interface';
 import { Readable } from 'stream';
 import {
-  AppConfigServiceInterface,
+  AppConfigService,
   FilesystemChoices,
 } from '../../app-config/app-config.service';
 
 @Injectable()
 export class LocalAdapter implements FilesystemAdapter {
-  constructor(@Inject('CONFIG') private config: AppConfigServiceInterface) {}
+  constructor(private config: AppConfigService) {}
 
   exists(filePath: string): Promise<boolean> {
     return Promise.resolve(

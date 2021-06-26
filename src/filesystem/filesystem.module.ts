@@ -19,10 +19,6 @@ import { S3Factory } from './adapter/s3/s3-factory';
     S3Service,
     S3Factory,
     {
-      provide: 'CONFIG',
-      useValue: AppConfigService,
-    },
-    {
       provide: AdapterFactory,
       useFactory: (...args) => {
         return new AdapterFactory(args[0], args.slice(1, args.length));

@@ -14,11 +14,11 @@ export class UploadController {
 
   @Post('/')
   @UseInterceptors(FileInterceptor('file'))
-  uploadImages(@UploadedFile() file: Express.Multer.File) {
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
     const request = new UploadFile();
     request.file = file;
     request.filename = this.uploadService.generateFilename();
 
-    return this.uploadService.uploadImage(request);
+    return this.uploadService.uploadFile(request);
   }
 }

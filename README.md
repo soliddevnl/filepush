@@ -24,22 +24,28 @@ http://localhost:5000/b1e75049-d550-43e2-abc0-796fb809fb85
 Filepush requires Docker.
 
 ```bash
-docker run -v <PATH TO STORE FILES>:/files -p 5000:5000 joostvdriel/filepush:latest
+docker run -v<PATH TO STORE FILES>:/files -p 5000:5000 joostvdriel/filepush:latest
 ```
 
 ## Configuration
-Filepush uses dotenv for configuration. 
-Create the following `.env.local` to keep your secrets out of Git.
+Configuration is done via environment variables.
 
-```dotenv
-APP_FILESYSTEM="local" # "local" / "s3" / "in-memory"
-
-APP_PORT=5000
-APP_FILE_DIR="/files"
-
-# In case you want to store your files on S3:
-APP_S3_REGION=
-APP_S3_BUCKET=
-APP_S3_KEY=
-APP_S3_SECRET=
 ```
+
+## Configuration
+| Setting  | Default value | Description |
+| ------------- | ------------- |------------- |
+| APP_PORT  | 5000 | port to run the application on |
+| APP_FILESYSTEM  | local | local, in-memory or S3 |
+## In case of local
+| APP_FILE_DIR  | "/files" | The location to store the uploaded files, only for the `local` filesystem. |
+## In case of s3
+| APP_S3_REGION  |  | AWS S3 Region |
+| APP_S3_BUCKET  |   | AWS S3 Bucket |
+| APP_S3_KEY  |   | AWS S3 auth key |
+| APP_S3_SECRET  |  | AWS S3 auth secret |
+
+Setting configuration variables is all set through env variables that get passed to the docker container.
+### Example:
+```
+docker run -e APP_FILESYSTEM="local" -e APP_FILE_DIR="/files" -s -v ./files:/files -p 5000:5000 joostvdriel/filepush:latest
