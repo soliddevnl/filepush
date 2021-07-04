@@ -13,7 +13,7 @@ Minimalist Self-hosted Image Service for user submitted files in your app (e.g. 
 Uploading a file:
 
 ```bash
-> curl -F 'file=@dog.jpg' http://localhost:5000
+> curl -H X-API-KEY='change-me' -F 'file=@dog.jpg' http://localhost:5000
 {"filename":"b1e75049-d550-43e2-abc0-796fb809fb85","mimetype":"image/jpeg"}
 ```
 
@@ -23,7 +23,7 @@ If you do not care about having the full uploaded image, you can pass resize opt
 This will resize the image before it is stored to the Filesystem.
 
 ```bash
-> curl -F 'file=@dog.jpg' -F 'width=500' -F 'height=500' http://localhost:5000
+> curl -H X-API-KEY='change-me' -F 'file=@dog.jpg' -F 'width=500' -F 'height=500' http://localhost:5000
 {"filename":"b1e75049-d550-43e2-abc0-796fb809fb85","mimetype":"image/jpeg"}
 ```
 
@@ -32,6 +32,10 @@ Fetching a file:
 ```
 http://localhost:5000/b1e75049-d550-43e2-abc0-796fb809fb85
 ```
+
+## Authentication
+Use the `APP_API_KEY` environment variable to set the api key of your choice. This api key is validated on every request.
+In the requests, send your api key in the `X-API-KEY` header.
 
 ## Running
 
@@ -53,6 +57,7 @@ Configuration is done via environment variables.
 | ------------- | ------------- |------------- |
 | APP_PORT  | 5000 | port to run the application on |
 | APP_FILESYSTEM  | local | local, in-memory or S3 |
+| APP_API_KEY  | change-me | define your api key, use a random UUID for example |
 
 ### Local filesystem
 

@@ -9,6 +9,7 @@ import * as Joi from 'joi';
       envFilePath: ['.env.local', '.env'],
       validationSchema: Joi.object({
         APP_PORT: Joi.number().default(5000),
+        APP_API_KEY: Joi.string().required(),
         APP_FILESYSTEM: Joi.string()
           .valid('local', 's3', 'in-memory')
           .default('local'),

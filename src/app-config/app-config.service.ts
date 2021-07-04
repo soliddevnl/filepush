@@ -21,6 +21,10 @@ export interface AppConfigServiceInterface {
 export class AppConfigService implements AppConfigServiceInterface {
   constructor(private config: ConfigService) {}
 
+  get apiKey(): string {
+    return this.config.get<string>('APP_API_KEY');
+  }
+
   get fileDir(): string {
     return this.config.get<string>('APP_FILE_DIR');
   }
