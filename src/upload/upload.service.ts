@@ -18,7 +18,7 @@ export class UploadService {
   async uploadFile(request: UploadFileDto) {
     let fileBuffer = request.file.buffer;
 
-    if (request.width && request.height) {
+    if (this.isImage(request) && request.width && request.height) {
       fileBuffer = await this.resizeService.resize(request.file.buffer, {
         width: request.width,
         height: request.height,
@@ -31,5 +31,9 @@ export class UploadService {
       filename: request.filename,
       mimetype: request.file.mimetype,
     };
+  }
+
+  private isImage(request: UploadFileDto): boolean {
+    return request.file.mimetype.includes('image');
   }
 }

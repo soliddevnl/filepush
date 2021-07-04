@@ -36,7 +36,7 @@ describe('UploadService', () => {
     const File: jest.Mock<Express.Multer.File> = jest.fn();
     const upload = new File();
     upload.buffer = Buffer.from('content');
-    upload.mimetype = 'jpeg';
+    upload.mimetype = 'image/jpeg';
 
     const result = await service.uploadFile({
       file: upload,
@@ -50,7 +50,7 @@ describe('UploadService', () => {
 
     expect(result).toStrictEqual({
       filename: 'filename',
-      mimetype: 'jpeg',
+      mimetype: 'image/jpeg',
     });
   });
 
@@ -58,7 +58,7 @@ describe('UploadService', () => {
     const File: jest.Mock<Express.Multer.File> = jest.fn();
     const upload = new File();
     upload.buffer = Buffer.from('content');
-    upload.mimetype = 'jpeg';
+    upload.mimetype = 'image/jpeg';
 
     resizeService.resize.mockResolvedValue(Buffer.from('resized content'));
 
@@ -81,7 +81,34 @@ describe('UploadService', () => {
 
     expect(result).toStrictEqual({
       filename: 'filename',
-      mimetype: 'jpeg',
+      mimetype: 'image/jpeg',
+    });
+
+    resizeService.resize.mockClear();
+  });
+
+  it('txt file is not resized, even though resize options are passed', async () => {
+    const File: jest.Mock<Express.Multer.File> = jest.fn();
+    const upload = new File();
+    upload.buffer = Buffer.from('content');
+    upload.mimetype = 'text/plain';
+
+    const result = await service.uploadFile({
+      file: upload,
+      filename: 'filename',
+      width: 100,
+      height: 100,
+    });
+
+    expect(resizeService.resize).not.toHaveBeenCalled();
+    expect(filesystemService.write).toHaveBeenCalledWith(
+      'filename',
+      Buffer.from('content'),
+    );
+
+    expect(result).toStrictEqual({
+      filename: 'filename',
+      mimetype: 'text/plain',
     });
   });
 });
