@@ -17,6 +17,16 @@ Uploading a file:
 {"filename":"b1e75049-d550-43e2-abc0-796fb809fb85","mimetype":"image/jpeg"}
 ```
 
+Uploading images:
+
+If you do not care about having the full uploaded image, you can pass resize options.
+This will resize the image before it is stored to the Filesystem.
+
+```bash
+> curl -F 'file=@dog.jpg' -F 'width=500' -F 'height=500' http://localhost:5000
+{"filename":"b1e75049-d550-43e2-abc0-796fb809fb85","mimetype":"image/jpeg"}
+```
+
 Fetching a file:
 
 ```
