@@ -8,6 +8,10 @@ Minimalist Self-hosted Image Service for user submitted files in your app (e.g. 
 - One simple API endpoint for uploading files
 - Save files on AWS S3, on your local filesystem or in-memory (for tests).
 
+## Filepush as a service
+Interested in never having to worry about file uploads again? 
+https://j92.github.io/filepush-landing/.
+
 ## Usage
 
 Uploading a file:
